@@ -12,7 +12,7 @@ import org.apache.curator.*;
 import org.apache.curator.retry.*;
 import org.apache.curator.framework.*;
 import org.apache.curator.utils.*;
-
+import org.apache.zookeeper.CreateMode;
 import org.apache.log4j.*;
 
 public class StorageNode {
@@ -59,6 +59,16 @@ public class StorageNode {
 	    }).start();
 
 	// TODO: create an ephemeral node in ZooKeeper
-	// curClient.create(...)
-    }
+	curClient.create().withMode(CreateMode.EPHEMERAL_SEQUENTIAL).forPath(args[3]+"/child", (args[0]+":"+args[1]).getBytes());
+	//determine if we are primary or backup
+	//String zkNode = args[3];
+	
+	// List<String> children = curClient.getChildren().forPath(zkNode);
+	// if (children.size() == 1) {
+	// 	log.info("created a primary node");
+    // } else {
+	// 	log.info("created a backupnode");
+	// }
+
+	}
 }
